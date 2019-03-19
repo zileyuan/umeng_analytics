@@ -7,20 +7,20 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import android.app.Activity;
+import android.content.Context;
 
 /** UmengAnalyticsPlugin */
 public class UmengAnalyticsPlugin implements MethodCallHandler {
-  private Activity activity;
+  private Context context;
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "umeng_analytics");
-    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.activity()));
+    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.context()));
   }
 
-  private UmengAnalyticsPlugin(Activity activity) {
-    this.activity = activity;
+  private UmengAnalyticsPlugin(Context context) {
+    this.context = context;
   }
 
   @Override
@@ -34,10 +34,11 @@ public class UmengAnalyticsPlugin implements MethodCallHandler {
   }
 
   private boolean init(MethodCall call, Result result) {
+    // 获取传入的参数
     String appKey = call.argument("key");
     String channel = call.argument("channel");
     Integer deviceType = call.argument("deviceType");
-    UMConfigure.init(activity, appKey, channel, deviceType, null);
+    UMConfigure.init(this.context, appKey, channel, deviceType, null);
 
     if (call.hasArgument("logEnable"))
       UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));
