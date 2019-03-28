@@ -5,22 +5,21 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import com.umeng.analytics.MobclickAgent;
 import com.umeng.commonsdk.UMConfigure;
-import android.content.Context;
+import android.app.Activity;
 
 /** UmengAnalyticsPlugin */
 public class UmengAnalyticsPlugin implements MethodCallHandler {
-  private Context context;
+  private Activity activity;
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "umeng_analytics");
-    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.context()));
+    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.activity()));
   }
 
-  private UmengAnalyticsPlugin(Context context) {
-    this.context = context;
+  private UmengAnalyticsPlugin(Activity activity) {
+    this.activity = activity;
   }
 
   @Override
@@ -38,18 +37,10 @@ public class UmengAnalyticsPlugin implements MethodCallHandler {
     String appKey = call.argument("key");
     String channel = call.argument("channel");
     Integer deviceType = call.argument("deviceType");
-    UMConfigure.init(this.context.getApplicationContext(), appKey, channel, deviceType, null);
+    UMConfigure.init(this.activity, appKey, channel, deviceType, null);
 
     if (call.hasArgument("logEnable"))
       UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));
-
-    if (call.hasArgument("encrypt"))
-      UMConfigure.setEncryptEnabled((Boolean) call.argument("encrypt"));
-
-    if (call.hasArgument("reportCrash"))
-      MobclickAgent.setCatchUncaughtExceptions((Boolean) call.argument("reportCrash"));
-
-    MobclickAgent.openActivityDurationTrack(false);
 
     return true;
   }

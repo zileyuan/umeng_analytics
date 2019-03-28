@@ -27,14 +27,8 @@
 
   [UMConfigure initWithAppkey:appKey channel:channel];
 
-  NSNumber *reportCrash = call.arguments[@"reportCrash"];
-  if (reportCrash) [MobClick setCrashReportEnabled:[reportCrash boolValue]];
-
   NSNumber *logEnable = call.arguments[@"logEnable"];
   if (logEnable) [UMConfigure setLogEnabled:[logEnable boolValue]];
-
-  NSNumber *encrypt = call.arguments[@"encrypt"];
-  if (encrypt) [UMConfigure setEncryptEnabled:[encrypt boolValue]];
 }
 
 @end

@@ -20,10 +20,6 @@ class UmengAnalytics {
     String key, {
     int deviceType = DEVICE_TYPE_PHONE,
     String channel = 'default',
-    int policy,
-    bool reportCrash,
-    bool encrypt,
-    double interval,
     bool logEnable,
   }) async {
     Map<String, dynamic> args = {
@@ -32,10 +28,6 @@ class UmengAnalytics {
       'channel': channel,
     };
 
-    if (policy != null) args['policy'] = policy;
-    if (reportCrash != null) args['reportCrash'] = reportCrash;
-    if (encrypt != null) args['encrypt'] = encrypt;
-    if (interval != null) args['interval'] = interval;
     if (logEnable != null) args['logEnable'] = logEnable;
 
     await _channel.invokeMethod('init', args);
