@@ -38,7 +38,7 @@ public class UmengAnalyticsPlugin implements MethodCallHandler {
     String appKey = call.argument("key");
     String channel = call.argument("channel");
     Integer deviceType = call.argument("deviceType");
-    UMConfigure.init(this.context, appKey, channel, deviceType, null);
+    UMConfigure.init(this.context.getApplicationContext(), appKey, channel, deviceType, null);
 
     if (call.hasArgument("logEnable"))
       UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));
