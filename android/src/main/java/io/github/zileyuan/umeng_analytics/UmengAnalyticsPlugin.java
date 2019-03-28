@@ -6,20 +6,24 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import com.umeng.commonsdk.UMConfigure;
+import com.umeng.analytics.MobclickAgent;
 import android.app.Activity;
+import android.content.Context;
 
 /** UmengAnalyticsPlugin */
 public class UmengAnalyticsPlugin implements MethodCallHandler {
   private Activity activity;
+  private Context context;
 
   /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "umeng_analytics");
-    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.activity()));
+    channel.setMethodCallHandler(new UmengAnalyticsPlugin(registrar.activity(), registrar.context()));
   }
 
-  private UmengAnalyticsPlugin(Activity activity) {
+  private UmengAnalyticsPlugin(Activity activity, Context context) {
     this.activity = activity;
+    this.context = context;
   }
 
   @Override
@@ -37,10 +41,13 @@ public class UmengAnalyticsPlugin implements MethodCallHandler {
     String appKey = call.argument("key");
     String channel = call.argument("channel");
     Integer deviceType = call.argument("deviceType");
-    UMConfigure.init(this.activity, appKey, channel, deviceType, null);
+    UMConfigure.init(this.activity.getApplicationContext(), appKey, channel, deviceType, null);
 
     if (call.hasArgument("logEnable"))
       UMConfigure.setLogEnabled((Boolean) call.argument("logEnable"));
+
+    MobclickAgent.setSessionContinueMillis(20 * 1000);
+    MobclickAgent.setScenarioType(this.context, MobclickAgent.EScenarioType.E_UM_NORMAL);
 
     return true;
   }
