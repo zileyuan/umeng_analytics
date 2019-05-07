@@ -2,13 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
-class Policy {
-  static final int REALTIME = 0;
-  static final int BATCH = 1;
-  static final int SEND_INTERVAL = 6;
-  static final int SMART_POLICY = 8;
-}
-
 class UmengAnalytics {
   static const DEVICE_TYPE_PHONE = 1;
   static const DEVICE_TYPE_BOX = 2;
@@ -18,13 +11,12 @@ class UmengAnalytics {
 
   static Future<bool> init(
     String key, {
-    int deviceType = DEVICE_TYPE_PHONE,
-    String channel = 'default',
+    String channel = 'NoChannel',
     bool logEnable,
   }) async {
     Map<String, dynamic> args = {
       'key': key,
-      'deviceType': deviceType,
+      'deviceType': DEVICE_TYPE_PHONE,
       'channel': channel,
     };
 
