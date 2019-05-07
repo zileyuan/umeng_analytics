@@ -3,9 +3,9 @@ version '1.0'
 
 buildscript {
     repositories {
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 
     dependencies {
@@ -15,9 +15,9 @@ buildscript {
 
 rootProject.allprojects {
     repositories {
+        maven { url 'https://dl.bintray.com/umsdk/release' }
         google()
         jcenter()
-        maven { url 'https://dl.bintray.com/umsdk/release' }
     }
 }
 
