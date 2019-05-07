@@ -14,7 +14,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     UmengAnalytics.init('5c7cfb8761f56426a50016e6',
-          policy: Policy.BATCH, encrypt: true, reportCrash: false);
+        channel: 'default', logEnable: true);
   }
 
   @override
