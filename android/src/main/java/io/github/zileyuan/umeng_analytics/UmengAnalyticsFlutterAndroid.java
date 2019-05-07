@@ -15,7 +15,7 @@ public class UmengAnalyticsFlutterAndroid {
         MobclickAgent.onResume(context);
     }
 
-    public static void androidOnPausee(Context context) {
+    public static void androidOnPause(Context context) {
         MobclickAgent.onPause(context);
     }
 }
